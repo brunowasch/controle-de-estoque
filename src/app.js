@@ -1,27 +1,14 @@
+require('dotenv').config(); // Carrega variáveis do .env
 const express = require('express');
-const bodyParser = require('body-parser');
+const cors = require('cors');
+const connectDB = require('./database');
+
 const app = express();
-require('dotenv').config();
-require('./config/database');
+app.use(express.json());
+app.use(cors());
 
-// Middleware para JSON
-app.use(bodyParser.json());
-
-// Rotas
-try {
-  const produtoRoutes = require('./routes/produtoRoutes');
-  const categoriaRoutes = require('./routes/categoriaRoutes');
-  const pedidoRoutes = require('./routes/pedidoRoutes');
-  const dashboardRoutes = require('./routes/dashboardRoutes');
-
-  app.use('/produtos', produtoRoutes);
-  app.use('/categorias', categoriaRoutes);
-  app.use('/pedidos', pedidoRoutes);
-  app.use('/dashboard', dashboardRoutes);
-} catch (err) {
-  console.error('Erro ao carregar rotas:', err.message);
-}
-
-// Porta do servidor
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`🚀 Servidor rodando em http://localhost:${PORT}`));
+connectDB().then(() => {
+    app.listen(process.env.PORT, () => {
+    console.log(`Servidor rodando na porta ${process.env.PORT}`);
+    });
+})
