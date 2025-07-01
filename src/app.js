@@ -24,6 +24,7 @@ connectDB().then(() => {
 app.get('/', (req, res) => {
     res.render('cadastro');
 });
+
 app.get('/login', (req, res) => {
     res.render('login');
 });
