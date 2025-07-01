@@ -15,6 +15,10 @@ app.use(cors());
 app.get('/', (req, res) => {
     res.render('cadastro');
 });
+app.get('/login', (req, res) => {
+  res.render('login');
+});
+
 connectDB().then(() => {
     app.listen(process.env.PORT, () => {
     console.log(`Servidor rodando na http://localhost:${process.env.PORT}`);
