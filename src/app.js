@@ -5,6 +5,7 @@ const path = require('path');
 const express = require('express');
 const cors = require('cors');
 const connectDB = require('./database');
+const productRoutes = require('./routes/productRoutes');
 
 const app = express();
 app.set('view engine', 'ejs');
@@ -14,6 +15,7 @@ app.use(express.json());
 app.use(cors());
 
 app.use('/api/auth', authRoutes);
+app.use('/api/products', productRoutes);
 
 connectDB().then(() => {
     app.listen(process.env.PORT, () => {
