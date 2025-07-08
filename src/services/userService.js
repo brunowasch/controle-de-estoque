@@ -67,16 +67,16 @@ async function resetPassword(resetToken, newPassword) {
     return true;
 }
 
-async function registerUser(email, password) {
+async function registerUser(nome, email, password) {
     const userExists = await User.findOne({ email });
     if (userExists) throw { status: 400, message: "Email já cadastrado" };
-
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = new User({ email, password: hashedPassword });
+    const user = new User({ nome, email, password: hashedPassword });
     await user.save();
 
     return user;
 }
+
 
 async function loginUser(email, password) {
     const user = await User.findOne({ email });
