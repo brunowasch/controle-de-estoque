@@ -10,7 +10,7 @@ const ACCESS_EXP = "15m";
 const REFRESH_EXP = "7d";
 
 function createTokens(user) {
-    const accessToken = jwt.sign({ id: user._id, email: user.email }, SECRET, { expiresIn: ACCESS_EXP });
+    const accessToken = jwt.sign({ id: user._id, email: user.email, role: user.role }, SECRET, { expiresIn: ACCESS_EXP });
     const refreshToken = jwt.sign({ id: user._id }, REFRESH_SECRET, { expiresIn: REFRESH_EXP });
     return { accessToken, refreshToken };
 }
@@ -67,11 +67,11 @@ async function resetPassword(resetToken, newPassword) {
     return true;
 }
 
-async function registerUser(nome, email, password) {
+async function registerUser(nome, email, password, role) {
     const userExists = await User.findOne({ email });
     if (userExists) throw { status: 400, message: "Email já cadastrado" };
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = new User({ nome, email, password: hashedPassword });
+    const user = new User({ nome, email, password: hashedPassword, role });
     await user.save();
 
     return user;

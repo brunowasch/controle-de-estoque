@@ -33,22 +33,40 @@ exports.resetPassword = async (req, res) => {
 	}
 };
 
+// CONTROLLER DE REGISTRO PÚBLICO - CORRIGIDO E SEGURO
 exports.registerUser = async (req, res) => {
   try {
     const { nome, email, password } = req.body;
-    await authService.registerUser(nome, email, password);
 
-    
+    await authService.registerUser(nome, email, password, 'user');
+
     res.status(201).json({ message: "Usuário registrado com sucesso" });
 
   } catch (err) {
-    
     res.status(err.status || 500).json({
       error: err.message || "Erro ao registrar usuário"
     });
   }
 };
 
+exports.createUserByAdmin = async (req, res) => {
+  try {
+    const { nome, email, password, role } = req.body;
+
+    if (role && !['user', 'admin'].includes(role)) {
+      return res.status(400).json({ error: "Role inválida. Deve ser 'user' ou 'admin'." });
+    }
+    
+	await authService.registerUser(nome, email, password, role);
+
+    res.status(201).json({ message: `Usuário ${nome} criado com sucesso com a role: ${role || 'user'}` });
+
+  } catch (err) {
+    res.status(err.status || 500).json({
+      error: err.message || "Erro ao registrar usuário"
+    });
+  }
+};
 
 exports.loginUser = async (req, res) => {
 	try {
