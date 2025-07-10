@@ -8,6 +8,7 @@ Thumbs.db
 # Ignorar arquivos de log
 *.log
 
+# Ignorar configurações de IDEs (Exemplo do VS Code)
 .vscode/
 
 # Ignorar arquivos temporários
