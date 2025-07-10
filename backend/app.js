@@ -8,29 +8,27 @@ const connectDB = require('./database');
 const productRoutes = require('./routes/productRoutes');
 
 const app = express();
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
-app.use(express.static(path.join(__dirname, '..', 'public')));
+
+// Serve os arquivos estáticos do build do React
+app.use(express.static(path.join(__dirname, '..', 'frontend', 'build')));
+
+// Roteamento para servir o index.html para qualquer requisição não encontrada (para o React Router)
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'frontend', 'build', 'index.html'));
+});
+
+// Configuração do express
 app.use(express.json());
-app.use(express.urlencoded({ extended: true })); // para ler os dados interpretar req.body
+app.use(express.urlencoded({ extended: true })); // Para ler os dados do formulário
 app.use(cors());
 
+// Definição das rotas da API
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
 
+// Conexão com o banco de dados
 connectDB().then(() => {
     app.listen(process.env.PORT, () => {
         console.log(`Servidor rodando em http://localhost:${process.env.PORT}`);
     });
-});
-
-app.get("/", (req, res) => {
-  res.render("cadastro", { error: null }); // evitar erro de variável não definida
-});
-
-app.get('/login', (req, res) => {
-    res.render('login', { error: null });
-});
-app.get('/home', (req, res) => {
-    res.render('home');
 });

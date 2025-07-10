@@ -1,0 +1,16 @@
+# Ignorar dependências do frontend
+node_modules/
+
+# Ignorar arquivos de build gerados pelo React
+build/
+dist/
+
+# Ignorar configurações locais de desenvolvimento
+.env
+
+# Ignorar logs de debug
+*.log
+
+# Ignorar arquivos do sistema
+.DS_Store
+Thumbs.db
