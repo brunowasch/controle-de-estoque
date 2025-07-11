@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import '../css/LoginPage.css';
+import '../css/style.css';
 import stokDrawImage from '../assets/stokDraw.png';
 import { Link } from 'react-router-dom';
 
