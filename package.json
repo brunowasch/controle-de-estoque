@@ -1,5 +1,23 @@
 {
   "dependencies": {
     "dotenv": "^17.2.0"
-  }
+  },
+  "name": "controle-de-estoque",
+  "version": "1.0.0",
+  "description": "Projeto Prático Integrador II -Sistema de Controle de Estoque",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brunowasch/controle-de-estoque.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/brunowasch/controle-de-estoque/issues"
+  },
+  "homepage": "https://github.com/brunowasch/controle-de-estoque#readme"
 }
