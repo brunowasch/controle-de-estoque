@@ -6,6 +6,8 @@ const express = require('express');
 const cors = require('cors');
 const connectDB = require('./database');
 const productRoutes = require('./routes/productRoutes');
+const clientRoutes = require('./routes/clientRoutes');
+const supplierRoutes = require('./routes/supplierRoutes');
 
 const app = express();
 
@@ -25,6 +27,8 @@ app.use(cors());
 // Definição das rotas da API
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
+app.use('/api/clients', clientRoutes);
+app.use('/api/suppliers', supplierRoutes);
 
 // Conexão com o banco de dados
 connectDB().then(() => {

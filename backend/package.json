@@ -8,7 +8,6 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
   "dependencies": {
     "bcrypt": "^6.0.0",
     "cors": "^2.8.5",
@@ -22,5 +21,6 @@
     "svgo": "^4.0.0",
     "webpack": "^5.100.0",
     "webpack-dev-server": "^5.2.2"
-  }
+  },
+  "description": ""
 }
