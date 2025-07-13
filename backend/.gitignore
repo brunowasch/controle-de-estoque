@@ -1,0 +1,11 @@
+# Ignorar dependências do backend
+node_modules/
+
+# Ignorar arquivos de log
+*.log
+
+# Ignorar variáveis de ambiente locais (sensíveis)
+.env
+
+# Ignorar arquivos de banco de dados locais (se houver)
+*.sqlite

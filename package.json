@@ -1,23 +1,25 @@
 {
-  "name": "estoque-loja",
+  "dependencies": {
+    "dotenv": "^17.2.0",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
+  },
+  "name": "controle-de-estoque",
   "version": "1.0.0",
-  "main": "src/app.js",
+  "description": "Projeto Prático Integrador II -Sistema de Controle de Estoque",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brunowasch/controle-de-estoque.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
-  "dependencies": {
-    "bcrypt": "^6.0.0",
-    "cors": "^2.8.5",
-    "crypto": "^1.0.1",
-    "dotenv": "^16.6.1",
-    "ejs": "^3.1.10",
-    "express": "^5.1.0",
-    "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.16.0",
-    "nodemailer": "^7.0.4"
-  }
+  "bugs": {
+    "url": "https://github.com/brunowasch/controle-de-estoque/issues"
+  },
+  "homepage": "https://github.com/brunowasch/controle-de-estoque#readme"
 }
