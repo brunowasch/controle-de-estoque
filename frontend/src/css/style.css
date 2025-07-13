@@ -1,22 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
-body {
+* {
   font-family: 'Montserrat', sans-serif;
+}
+
+body {
   background-color: #f8f9fa;
 }
 
 .backgroundBlue {
   background-color: #014F91;
-}
-
-.eye-icon {
-  position: absolute;
-  top: 50%;
-  right: 15px;
-  transform: translateY(-50%);
-  width: 20px;
-  height: 20px;
-  cursor: pointer;
 }
 
 .btn-primary {

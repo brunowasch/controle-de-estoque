@@ -1,86 +1,95 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
-import '../css/LoginPage.css';
+import '../css/style.css';
 import stokDrawImage from '../assets/stokDraw.png';
-import { Link } from 'react-router-dom';
+import { login } from '../services/userService';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('/api/auth/login', {
-        email,
-        password,
-      });
+      const response = await login({ email, password });
 
       if (response.status === 200) {
-        localStorage.setItem('token', response.data.accessToken);
         alert('Login realizado com sucesso!');
         navigate('/home');
       }
     } catch (err) {
-      // Verifica se o erro tem uma mensagem de erro
-      if (err.response && err.response.data) {
-        if (err.response.data.error) {
-          alert(err.response.data.error); // Exibe a mensagem de erro em um alert
-        } else {
-          alert('Erro inesperado ao tentar fazer login');
-        }
+      if (err.response && err.response.status === 401) {
+        setError('Email ou senha incorretos.');
       } else {
-        alert('Erro de rede ou servidor');
+        setError('Erro inesperado ao tentar fazer login.');
       }
     }
   };
 
   return (
-    <div className="login-container">
-      <div className="form-container">
-        <h2 className="login-title">Fazer login</h2>
-        <form onSubmit={handleSubmit} id="loginForm">
-          <div className="mb-3">
-            <label htmlFor="email" className="form-label">Email</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              className="form-control"
-              placeholder="Digite seu email"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="senha" className="form-label">Senha</label>
-            <input
-              type="password"
-              id="senha"
-              name="password"
-              className="form-control"
-              placeholder="Digite sua senha"
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-          <button type="submit" className="btn btn-primary w-100 rounded-pill fs-5">
-            Continuar
-          </button>
-          <p className="mt-3 text-center small">
-          Não tem uma conta? <Link to="/cadastro">Crie aqui</Link> {}
-          </p>
-        </form>
-      </div>
+    <div className="container-fluid min-vh-100 d-flex justify-content-center align-items-center bg-light">
+      <div className="card shadow flex-column flex-md-row w-100 mx-auto" style={{ maxWidth: '850px' }}>
 
-      <div className="image-container">
-        <p className="image-text">Você está no só Bujiganga.</p>
-        <img src={stokDrawImage} alt="Imagem ilustrativa" className="img-fluid" style={{ maxHeight: '90%', width: 'auto' }} />
+
+        <div className="col-md-6 p-5 d-flex flex-column">
+
+          <div className="d-flex align-items-center" style={{ height: '100px' }}>
+            <p className="fs-4 mb-0 text-center w-100">Fazer login</p>
+          </div>
+
+          <form onSubmit={handleSubmit} id="loginForm" className="mt-3">
+
+            <div className="mb-3">
+              <label htmlFor="email" className="form-label">Email</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                className="form-control"
+                placeholder="Digite seu email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+
+            <div className="mb-3">
+              <label htmlFor="senha" className="form-label">Senha</label>
+              <input
+                type="password"
+                id="senha"
+                name="password"
+                className="form-control"
+                placeholder="Digite sua senha"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+            {error && <div className="alert alert-danger text-center py-1 my-2 small">{error}</div>}
+            <button type="submit" className="btn btn-primary w-100 rounded-pill fs-5 mt-1">
+              Continuar
+            </button>
+            <p className="mt-3 text-center small">
+              Não tem uma conta? <Link to="/cadastro">Crie aqui</Link>
+            </p>
+          </form>
+        </div>
+
+        <div className="col-md-6 d-flex flex-column justify-content-center align-items-center text-white text-center backgroundBlue p-4 p-md-5">
+          <p className="fs-4 mb-4">Você está no só Bujiganga.</p>
+          <img
+            src={stokDrawImage}
+            alt="Imagem ilustrativa"
+            className="img-fluid"
+            style={{ maxHeight: '350px' }}
+          />
+        </div>
+
       </div>
     </div>
   );

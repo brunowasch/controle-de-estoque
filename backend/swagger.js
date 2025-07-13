@@ -10,7 +10,7 @@ const options = {
     },
     servers: [
       {
-        url: 'http://localhost:3000', // ajuste se estiver usando outra porta
+        url: `http://localhost:3000`,
       },
     ],
     components: {
@@ -24,7 +24,7 @@ const options = {
     },
     security: [{ bearerAuth: [] }],
   },
-  apis: ['./routes/*.js'], // Ele vai ler os comentários Swagger desses arquivos
+  apis: ['./routes/*.js'], 
 };
 
 module.exports = swaggerJSDoc(options);

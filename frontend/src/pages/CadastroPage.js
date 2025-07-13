@@ -1,115 +1,123 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';  // Corrigir a importação
-import axios from 'axios';
-import '../css/LoginPage.css';  // O mesmo estilo de LoginPage, só reutilizando a classe
-import stokDrawImage from '../assets/stokDraw.png'; // Reutilizando a imagem
+import React, { useState, useEffect } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import { register } from '../services/userService';
+import '../css/style.css';
+import stokDrawImage from '../assets/stokDraw.png';
 
 const CadastroPage = () => {
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
-  const [confirmarSenha, setConfirmarSenha] = useState('');
   const [error, setError] = useState(null);
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (senha !== confirmarSenha) {
-      alert('As senhas não coincidem!');
-      return;
-    }
-
     try {
-      const response = await axios.post('/api/auth/register', {
-        nome,
-        email,
-        password: senha,
-      });
+      const response = await register({ nome, email, password: senha });
 
       if (response.status === 201) {
         alert('Cadastro realizado com sucesso!');
-        navigate('/');  
+        navigate('/'); 
       }
     } catch (err) {
-      if (err.response && err.response.data.error === 'Email já cadastrado') {
-        alert('Erro ao cadastrar: Email já cadastrado'); 
-      } else {
-        setError(err.response ? err.response.data.error : 'Erro inesperado ao tentar cadastrar');
-      }
+      const errorMsg = err.response?.data?.error || 'Erro inesperado ao tentar cadastrar';
+      setError(errorMsg);
     }
   };
 
-  return (
-    <div className="login-container">
-      <div className="form-container">
-        <h2 className="login-title">Cadastro</h2>
-        {error && <div className="alert alert-danger">{error}</div>}
-        <form onSubmit={handleSubmit} id="cadastroForm">
-          <div className="mb-3">
-            <label htmlFor="nome" className="form-label">Nome</label>
-            <input
-              type="text"
-              id="nome"
-              name="nome"
-              className="form-control"
-              placeholder="Digite seu nome"
-              required
-              value={nome}
-              onChange={(e) => setNome(e.target.value)}
-            />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="email" className="form-label">Email</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              className="form-control"
-              placeholder="Digite seu email"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="senha" className="form-label">Senha</label>
-            <input
-              type="password"
-              id="senha"
-              name="password"
-              className="form-control"
-              placeholder="Digite sua senha"
-              required
-              value={senha}
-              onChange={(e) => setSenha(e.target.value)}
-            />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="confirmarSenha" className="form-label">Confirmar Senha</label>
-            <input
-              type="password"
-              id="confirmarSenha"
-              name="confirmPassword"
-              className="form-control"
-              placeholder="Confirme sua senha"
-              required
-              value={confirmarSenha}
-              onChange={(e) => setConfirmarSenha(e.target.value)}
-            />
-          </div>
-          <button type="submit" className="btn btn-primary w-100 rounded-pill fs-5">
-            Continuar
-          </button>
-          <p className="mt-3 text-center small">
-            Já tem uma conta? <a href="/">Faça login aqui</a>
-          </p>
-        </form>
-      </div>
+  // Limpa erro depois de 3 segundos
+  useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => setError(null), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [error]);
 
-      <div className="image-container">
-        <p className="image-text">Você está no só Bujiganga.</p>
-        <img src={stokDrawImage} alt="Imagem ilustrativa" className="img-fluid" style={{ maxHeight: '90%', width: 'auto' }} />
+  return (
+    <div className="container-fluid min-vh-100 d-flex justify-content-center align-items-center bg-light">
+      <div
+        className="card shadow flex-column flex-md-row w-100 mx-auto"
+        style={{ maxWidth: '850px' }}
+      >
+        <div className="col-md-6 p-5 align-content-center">
+          <p className="mb-4 fs-4 text-center">Cadastre-se</p>
+
+          <form id="cadastroForm" onSubmit={handleSubmit}>
+            <div className="mb-3">
+              <label htmlFor="nome" className="form-label">
+                Nome
+              </label>
+              <input
+                type="text"
+                id="nome"
+                name="nome"
+                className="form-control"
+                required
+                value={nome}
+                onChange={(e) => setNome(e.target.value)}
+              />
+            </div>
+
+            <div className="mb-3">
+              <label htmlFor="email" className="form-label">
+                Email
+              </label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                className="form-control"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+
+            <div className="mb-3">
+              <label htmlFor="senha" className="form-label">
+                Senha
+              </label>
+              <input
+                type="password"
+                id="senha"
+                name="password"
+                className="form-control"
+                required
+                value={senha}
+                onChange={(e) => setSenha(e.target.value)}
+              />
+            </div>
+
+            {error && (
+              <div className="alert alert-danger text-center py-1 my-2 small">
+                {error}
+              </div>
+            )}
+
+            <button
+              type="submit"
+              className="btn btn-primary w-100 rounded-pill fs-5 mt-1"
+            >
+              Concluir
+            </button>
+            <p className="mt-3 text-center small">
+              Já tem uma conta? <a href="/">Entre aqui</a>
+            </p>
+          </form>
+        </div>
+
+        {/* Lado direito - imagem e texto */}
+        <div className="col-md-6 d-flex flex-column justify-content-center align-items-center text-white text-center backgroundBlue p-4 p-md-5">
+          <p className="fs-4 mb-4">Você está no só Bujiganga.</p>
+          <img
+            src={stokDrawImage}
+            alt="Imagem ilustrativa"
+            className="img-fluid"
+            style={{ maxHeight: '350px' }}
+          />
+        </div>
       </div>
     </div>
   );
