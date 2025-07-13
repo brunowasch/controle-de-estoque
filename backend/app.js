@@ -30,6 +30,9 @@ app.use('/api/products', productRoutes);
 app.use('/api/clients', clientRoutes);
 app.use('/api/suppliers', supplierRoutes);
 
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpec = require('./swagger');
+
 // Conexão com o banco de dados
 connectDB().then(() => {
     app.listen(process.env.PORT, () => {

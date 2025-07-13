@@ -1,6 +1,8 @@
 {
   "dependencies": {
-    "dotenv": "^17.2.0"
+    "dotenv": "^17.2.0",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
   },
   "name": "controle-de-estoque",
   "version": "1.0.0",
