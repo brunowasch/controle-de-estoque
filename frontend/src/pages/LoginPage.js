@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import axios from 'axios';
+import { login } from '../services/userService';
+import { useUser } from '../contexts/UserContext';
 import '../css/style.css';
 import stokDrawImage from '../assets/stokDraw.png';
-import { login } from '../services/userService';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const { setUser } = useUser();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,9 +19,15 @@ const LoginPage = () => {
       const response = await login({ email, password });
 
       if (response.status === 200) {
+        // Guarda o user vindo do backend
+        const userData = response.data.user;
+        setUser(userData);
+        localStorage.setItem('user', JSON.stringify(userData));
+        localStorage.setItem('token', response.data.accessToken);
         alert('Login realizado com sucesso!');
         navigate('/home');
       }
+
     } catch (err) {
       if (err.response && err.response.status === 401) {
         setError('Email ou senha incorretos.');

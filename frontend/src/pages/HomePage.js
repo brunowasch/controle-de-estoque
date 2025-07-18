@@ -1,31 +1,20 @@
 import React from 'react';
+import Header from '../components/layout/Header';
 import Sidebar from '../components/layout/Sidebar';
+import { useUser } from '../contexts/UserContext';
 import '../css/style.css';
 
 const HomePage = () => {
-  const user = {
-    name: 'Valentina Gaspar',
-    email: 'valentina@example.com'
-  };
-
+  const { user } = useUser();
+  
   return (
     <div className="d-flex min-vh-100">
       <Sidebar />
 
       <div className="flex-grow-1 d-flex flex-column bg-light">
-        {/* Header */}
-        <div className="d-flex justify-content-between align-items-center p-3 bg-white shadow-sm">
-          <h1 className="fs-4 fw-bold m-0 colorBlue">Sistema de Estoque</h1>
-          <div className="d-flex align-items-center">
-            <div className="text-end me-2">
-              <div className="fw-semibold small">{user.name}</div>
-              <div className="text-muted x-small">{user.email}</div>
-            </div>
-            <div className="bg-secondary rounded-circle" style={{ width: 32, height: 32 }} />
-          </div>
-        </div>
-
-      
+        <>
+          <Header user={user} />
+        </>
 
         {/* cards */}
         <div className="container-fluid p-3 flex-grow-1 overflow-auto">

@@ -85,7 +85,9 @@ async function loginUser(email, password) {
     const validPass = await bcrypt.compare(password, user.password);
     if (!validPass) throw { status: 401, message: "Senha inválida" };
 
-    return createTokens(user);
+    const tokens = createTokens(user);
+
+    return { tokens, user };
 }
 
 async function getAllUsers() {
