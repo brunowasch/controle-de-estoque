@@ -35,52 +35,58 @@ exports.resetPassword = async (req, res) => {
 
 // CONTROLLER DE REGISTRO PÚBLICO - CORRIGIDO E SEGURO
 exports.registerUser = async (req, res) => {
-  try {
-    const { nome, email, password } = req.body;
+	try {
+		const { nome, email, password } = req.body;
 
-    await authService.registerUser(nome, email, password, 'user');
+		await authService.registerUser(nome, email, password, 'user');
 
-    res.status(201).json({ message: "Usuário registrado com sucesso" });
+		res.status(201).json({ message: "Usuário registrado com sucesso" });
 
-  } catch (err) {
-    res.status(err.status || 500).json({
-      error: err.message || "Erro ao registrar usuário"
-    });
-  }
+	} catch (err) {
+		res.status(err.status || 500).json({
+			error: err.message || "Erro ao registrar usuário"
+		});
+	}
 };
 
 exports.createUserByAdmin = async (req, res) => {
-  try {
-    const { nome, email, password, role } = req.body;
+	try {
+		const { nome, email, password, role } = req.body;
 
-    if (role && !['user', 'admin'].includes(role)) {
-      return res.status(400).json({ error: "Role inválida. Deve ser 'user' ou 'admin'." });
-    }
-    
-	await authService.registerUser(nome, email, password, role);
+		if (role && !['user', 'admin'].includes(role)) {
+			return res.status(400).json({ error: "Role inválida. Deve ser 'user' ou 'admin'." });
+		}
 
-    res.status(201).json({ message: `Usuário ${nome} criado com sucesso com a role: ${role || 'user'}` });
+		await authService.registerUser(nome, email, password, role);
 
-  } catch (err) {
-    res.status(err.status || 500).json({
-      error: err.message || "Erro ao registrar usuário"
-    });
-  }
+		res.status(201).json({ message: `Usuário ${nome} criado com sucesso com a role: ${role || 'user'}` });
+
+	} catch (err) {
+		res.status(err.status || 500).json({
+			error: err.message || "Erro ao registrar usuário"
+		});
+	}
 };
 
 exports.loginUser = async (req, res) => {
 	try {
 		const { email, password } = req.body;
-		// console.log("Login recebido:", email, password);
-		const tokens = await authService.loginUser(email, password);
+		const { tokens, user } = await authService.loginUser(email, password);
 
 		res.cookie("refreshToken", tokens.refreshToken, {
 			httpOnly: true,
 			sameSite: "strict",
-			maxAge: 7 * 24 * 60 * 60 * 1000
+			maxAge: 7 * 24 * 60 * 60 * 1000,
 		});
 
-		res.json({ accessToken: tokens.accessToken, message: "Login realizado com sucesso" });
+		res.json({
+			accessToken: tokens.accessToken,
+			message: "Login realizado com sucesso",
+			user: {
+				nome: user.nome,
+				email: user.email,
+			},
+		});
 	} catch (err) {
 		res.status(400).json({ error: err.message || "Erro ao fazer login" });
 	}
