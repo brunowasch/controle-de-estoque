@@ -13,7 +13,7 @@ import '../../css/Sidebar.css';
 
 const Sidebar = () => {
   const location = useLocation();
-  const getActiveClass = (path) => (location.pathname === path ? 'active' : '');
+  const getActiveClass = (path) => location.pathname.startsWith(path) ? 'active' : '';
 
   const renderNavItem = (to, icon, label) => (
     <li className="nav-item mb-3" key={to}>
@@ -35,15 +35,6 @@ const Sidebar = () => {
 
   return (
     <>
-      {/* Botão do menu */}
-      <button
-        className="btn btn-primary d-md-none m-2"
-        type="button"
-        data-bs-toggle="offcanvas"
-        data-bs-target="#offcanvasSidebar"
-      >
-        <img src={iconMenu} alt="Menu" width="24" />
-      </button>
 
       {/* Menu lateral celular */}
       <div

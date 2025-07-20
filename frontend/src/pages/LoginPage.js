@@ -78,6 +78,13 @@ const LoginPage = () => {
               />
             </div>
             {error && <div className="alert alert-danger text-center py-1 my-2 small">{error}</div>}
+
+            <div className="text-end mb-3">
+              <Link to="/forgotPassword" className="small">
+                Esqueceu sua senha?
+              </Link>
+            </div>
+
             <button type="submit" className="btn btn-primary w-100 rounded-pill fs-5 mt-1">
               Continuar
             </button>
