@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@popperjs/core": "^2.11.8",
     "axios": "^1.10.0",
     "jwt-decode": "^4.0.0",
     "postcss": "^8.5.6",
