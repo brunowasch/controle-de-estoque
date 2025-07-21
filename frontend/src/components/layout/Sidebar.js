@@ -13,11 +13,23 @@ import '../../css/Sidebar.css';
 
 const Sidebar = () => {
   const location = useLocation();
-  const getActiveClass = (path) => (location.pathname === path ? 'active' : '');
+
+//  função usa o próprio JavaScript do Bootstrap para fechar manualmente o menu lateral
+  const closeOffcanvas = () => {
+    const el = document.getElementById('offcanvasSidebar');
+    const offcanvas = window.bootstrap?.Offcanvas.getInstance(el);
+    if (offcanvas) offcanvas.hide();
+  };
+
+  const getActiveClass = (path) => location.pathname.startsWith(path) ? 'active' : '';
 
   const renderNavItem = (to, icon, label) => (
     <li className="nav-item mb-3" key={to}>
-      <Link to={to} className={`nav-link sidebar-link ${getActiveClass(to)}`} data-bs-dismiss="offcanvas">
+      <Link
+        to={to}
+        className={`nav-link sidebar-link ${getActiveClass(to)}`}
+        onClick={() => closeOffcanvas()} // Fechamento controlado do menu via JS
+      >
         <img src={icon} alt={label} width="25" className="me-2" /> {label}
       </Link>
     </li>
@@ -35,15 +47,6 @@ const Sidebar = () => {
 
   return (
     <>
-      {/* Botão do menu */}
-      <button
-        className="btn btn-primary d-md-none m-2"
-        type="button"
-        data-bs-toggle="offcanvas"
-        data-bs-target="#offcanvasSidebar"
-      >
-        <img src={iconMenu} alt="Menu" width="24" />
-      </button>
 
       {/* Menu lateral celular */}
       <div
