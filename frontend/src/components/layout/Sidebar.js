@@ -60,7 +60,10 @@ const Sidebar = () => {
           <button type="button" className="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
         </div>
         <div className="offcanvas-body">
-          <img src={logo} alt="Logo" className="mb-4 mx-auto d-block" width="120" />
+          <Link to="/home" className="d-flex justify-content-center">
+            <img src={logo} alt="Logo" className="mb-4" width="120" />
+          </Link>
+          
           <ul className="nav flex-column">
             {navItems.map(item => renderNavItem(item.to, item.icon, item.label))}
           </ul>
@@ -69,7 +72,9 @@ const Sidebar = () => {
 
       {/* Menu no computador */}
       <div className="d-none d-md-flex flex-column backgroundBlue text-white p-3" style={{ width: '250px', minHeight: '100vh' }}>
-        <img src={logo} alt="Logo" className="mb-4 mx-auto" width="120" />
+        <Link to="/home" className="d-flex justify-content-center">
+          <img src={logo} alt="Logo" className="mb-4" width="120" />
+        </Link>
         <ul className="nav flex-column">
           {navItems.map(({ to, icon, label }) => renderNavItem(to, icon, label))}
         </ul>

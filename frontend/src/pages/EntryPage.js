@@ -3,12 +3,12 @@ import Header from '../components/layout/Header';
 import Sidebar from '../components/layout/Sidebar';
 import { useUser } from '../contexts/UserContext';
 import '../css/style.css';
-import ProdutoIcon from "../assets/caixasAzulIcon.png";
+import EntradaIcon from "../assets/entradasAzulIcon.png";
 import EditIcon from "../assets/editarIcon.png";
 import DeleteIcon from "../assets/deleteIcon.png";
 import searchIcon from "../assets/searchIcon.png";
 
-const ProductsPage = () => {
+const EntryPage = () => {
 	const { user } = useUser();
 
 	const produto = {
@@ -37,16 +37,16 @@ const ProductsPage = () => {
 						<div className="d-flex justify-content-between align-items-center mb-4">
 							<div className="d-flex align-items-center">
 								<img
-									src={ProdutoIcon}
-									alt="Produtos"
+									src={EntradaIcon}
+									alt="Entradas"
 									width="50"
 									height="50"
 									className="me-2"
 								/>
-								<p className="mb-0 fs-2 colorBlue">Produtos</p>
+								<p className="mb-0 fs-2 colorBlue">Entradas</p>
 							</div>
 							<button className="btn btn-primary rounded-pill mt-1">
-								Adicionar produto +
+								Adicionar entrada +
 							</button>
 						</div>
 
@@ -132,4 +132,4 @@ const ProductsPage = () => {
 	);
 };
 
-export default ProductsPage;
+export default EntryPage;
