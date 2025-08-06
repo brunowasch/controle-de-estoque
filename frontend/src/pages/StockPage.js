@@ -3,19 +3,20 @@ import Header from '../components/layout/Header';
 import Sidebar from '../components/layout/Sidebar';
 import { useUser } from '../contexts/UserContext';
 import '../css/style.css';
-import ProdutoIcon from "../assets/caixasAzulIcon.png";
+import EstoqueIcon from "../assets/estoqueAzulIcon.png";
 import EditIcon from "../assets/editarIcon.png";
 import DeleteIcon from "../assets/deleteIcon.png";
 import searchIcon from "../assets/searchIcon.png";
 
-const ProductsPage = () => {
+const StockPage = () => {
 	const { user } = useUser();
 
 	const produto = {
 		id: 1,
-		data: "24/06/2025",
-		nome: "xxxxxx",
-		tipo: "Entrada",
+		codigo: "#00000",
+		categoria: "xxxxxx",
+        estoque: "000",
+		tipo: "Estoque",
 		qtd: 0,
 		preco: 0,
 	};
@@ -37,17 +38,14 @@ const ProductsPage = () => {
 						<div className="d-flex justify-content-between align-items-center mb-4">
 							<div className="d-flex align-items-center">
 								<img
-									src={ProdutoIcon}
-									alt="Produtos"
+									src={EstoqueIcon}
+									alt="Estoque"
 									width="50"
 									height="50"
 									className="me-2"
 								/>
-								<p className="mb-0 fs-2 colorBlue">Produtos</p>
+								<p className="mb-0 fs-2 colorBlue">Estoque</p>
 							</div>
-							<button className="btn btn-primary rounded-pill mt-1">
-								Adicionar produto +
-							</button>
 						</div>
 
 						{/* Campo de pesquisa */}
@@ -86,22 +84,18 @@ const ProductsPage = () => {
 							<table className="table table-striped table-bordered align-middle text-center">
 								<thead className="table-light">
 									<tr>
-										<th>Data</th>
-										<th>Produto</th>
-										<th>Tipo</th>
-										<th>Qtd.</th>
-										<th>Preço</th>
+										<th>Código</th>
+										<th>Categoria</th>
+										<th>Estoque</th>
 										<th>Editar</th>
 										<th>Deletar</th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr>
-										<td>{produto.data}</td>
-										<td>{produto.nome}</td>
-										<td>{produto.tipo}</td>
-										<td>{String(produto.qtd).padStart(3, '0')}</td>
-										<td>{formatBr(produto.preco)}</td>
+										<td>{produto.codigo}</td>
+										<td>{produto.categoria}</td>
+										<td>{produto.estoque}</td>
 										<td>
 											<img
 												src={EditIcon}
@@ -132,4 +126,4 @@ const ProductsPage = () => {
 	);
 };
 
-export default ProductsPage;
+export default StockPage;
