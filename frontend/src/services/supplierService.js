@@ -2,8 +2,13 @@ import axios from 'axios';
 
 const API_URL = 'http://localhost:3000/api/suppliers';
 
-export const getSuppliers = () => axios.get(API_URL);
-export const getSupplierById = (id) => axios.get(`${API_URL}/${id}`);
-export const createSupplier = (data) => axios.post(API_URL, data);
-export const updateSupplier = (id, data) => axios.put(`${API_URL}/${id}`, data);
-export const deleteSupplier = (id) => axios.delete(`${API_URL}/${id}`);
+function auth() {
+  const token = localStorage.getItem('token'); 
+  return token ? { headers: { Authorization: `Bearer ${token}` } } : {};
+}
+
+export const getSuppliers    = () => axios.get(API_URL, auth());
+export const getSupplierById = (id) => axios.get(`${API_URL}/${id}`, auth());
+export const createSupplier  = (data) => axios.post(API_URL, data, auth());
+export const updateSupplier  = (id, data) => axios.put(`${API_URL}/${id}`, data, auth());
+export const deleteSupplier  = (id) => axios.delete(`${API_URL}/${id}`, auth());

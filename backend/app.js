@@ -5,6 +5,7 @@ const path = require('path');
 const express = require('express');
 const cors = require('cors');
 const connectDB = require('./database');
+const stockRoutes = require('./routes/stockRoutes');
 const productRoutes = require('./routes/productRoutes');
 const clientRoutes = require('./routes/clientRoutes');
 const supplierRoutes = require('./routes/supplierRoutes');
@@ -20,6 +21,7 @@ app.use(cors());
 // Rotas API
 app.use('/api/auth', authRoutes);
 app.use('/api/products', authenticateToken, productRoutes);
+app.use('/api/stock', authenticateToken, stockRoutes);
 app.use('/api/clients', clientRoutes);
 app.use('/api/suppliers', authenticateToken, supplierRoutes);
 
@@ -32,7 +34,6 @@ app.use(express.static(path.join(__dirname, '..', 'frontend', 'build')));
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'frontend', 'build', 'index.html'));
 });
-
 
 // Conexão BD
 connectDB().then(() => {

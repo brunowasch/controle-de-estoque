@@ -1,7 +1,6 @@
-// Importar Routes e Route do React Router
 import { Routes, Route } from 'react-router-dom';
-import LoginPage from './pages/LoginPage'; // Importando a página de login
-import HomePage from './pages/HomePage'; // Importando a HomePage, se necessário
+import LoginPage from './pages/LoginPage'; 
+import HomePage from './pages/HomePage'; 
 import CadastroPage from './pages/CadastroPage';
 import ForgotPasswordPage from './pages/forgotPasswordPage';
 import ProductsPage from './pages/ProductsPage';
