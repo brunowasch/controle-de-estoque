@@ -1,135 +1,132 @@
-import React from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import Header from '../components/layout/Header';
 import Sidebar from '../components/layout/Sidebar';
-import { useUser } from '../contexts/UserContext';
 import '../css/style.css';
 import ProdutoIcon from "../assets/caixasAzulIcon.png";
-import EditIcon from "../assets/editarIcon.png";
-import DeleteIcon from "../assets/deleteIcon.png";
 import searchIcon from "../assets/searchIcon.png";
+import ProductForm from '../components/products/ProductForm';
+import ProductList from '../components/products/ProductList';
+import { getProducts, deleteProduct } from '../services/productService';
+import { useUser } from '../contexts/UserContext';
 
 const ProductsPage = () => {
-	const { user } = useUser();
+  const { user } = useUser();
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [query, setQuery] = useState('');
+  const [showForm, setShowForm] = useState(false);
+  const [editing, setEditing] = useState(null);
 
-	const produto = {
-		id: 1,
-		data: "24/06/2025",
-		nome: "xxxxxx",
-		tipo: "Entrada",
-		qtd: 0,
-		preco: 0,
-	};
+  const fetchProducts = async () => {
+    setLoading(true);
+    try {
+      const res = await getProducts();
+      setProducts(res.data || []);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-	const formatBr = (num) =>
-		num.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+  useEffect(() => {
+    fetchProducts();
+  }, []);
 
-	return (
-		<div className="d-flex min-vh-100">
-			<Sidebar />
+  const filtered = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return products;
+    return products.filter(p =>
+      [p.name, p.description]
+        .filter(Boolean)
+        .some(v => String(v).toLowerCase().includes(q))
+      || String(p.price ?? '').includes(q)
+      || String(p.stock ?? '').includes(q)
+    );
+  }, [products, query]);
 
-			<div className="flex-grow-1 d-flex flex-column bg-light">
-				<Header user={user} />
+  const handleAdd = () => {
+    setEditing(null);
+    setShowForm(true);
+  };
 
-				<div className="container mt-4 flex-grow-1">
-					{/* Bloco branco com sombra e borda */}
-					<div className="bg-white rounded shadow p-4">
-						{/* Cabeçalho com ícone e botão */}
-						<div className="d-flex justify-content-between align-items-center mb-4">
-							<div className="d-flex align-items-center">
-								<img
-									src={ProdutoIcon}
-									alt="Produtos"
-									width="50"
-									height="50"
-									className="me-2"
-								/>
-								<p className="mb-0 fs-2 colorBlue">Produtos</p>
-							</div>
-							<button className="btn btn-primary rounded-pill mt-1">
-								Adicionar produto +
-							</button>
-						</div>
+  const handleEdit = (prod) => {
+    setEditing(prod);
+    setShowForm(true);
+  };
 
-						{/* Campo de pesquisa */}
-						<div className="position-relative mb-3" style={{ maxWidth: '360px' }}>
-							<img
-								src={searchIcon}
-								alt="lupa"
-								style={{
-									position: 'absolute',
-									top: '50%',
-									left: '12px',
-									transform: 'translateY(-50%)',
-									width: '30px',
-									height: '30px',
-									pointerEvents: 'none',
-									opacity: 1.5,
-								}}
-							/>
-							<input
-								type="text"
-								placeholder="Pesquisar"
-								className="form-control form-control-sm ps-5"
-								style={{
-									borderColor: '#014F91',   
-									borderWidth: '2px',
-									borderRadius: '15px',
-									height: '40px',          
-									fontSize: '18px',
-								}}
-							/>
-						</div>
+  const handleDelete = async (id) => {
+    await deleteProduct(id);
+    fetchProducts();
+  };
 
+  const handleFormSuccess = () => {
+    setShowForm(false);
+    setEditing(null);
+    fetchProducts();
+  };
 
-						{/* Tabela de produtos */}
-						<div className="table-responsive">
-							<table className="table table-striped table-bordered align-middle text-center">
-								<thead className="table-light">
-									<tr>
-										<th>Data</th>
-										<th>Produto</th>
-										<th>Tipo</th>
-										<th>Qtd.</th>
-										<th>Preço</th>
-										<th>Editar</th>
-										<th>Deletar</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td>{produto.data}</td>
-										<td>{produto.nome}</td>
-										<td>{produto.tipo}</td>
-										<td>{String(produto.qtd).padStart(3, '0')}</td>
-										<td>{formatBr(produto.preco)}</td>
-										<td>
-											<img
-												src={EditIcon}
-												alt="Editar"
-												width="20"
-												height="20"
-												style={{ cursor: 'pointer' }}
-											/>
-										</td>
-										<td>
-											<img
-												src={DeleteIcon}
-												alt="Deletar"
-												width="20"
-												height="20"
-												style={{ cursor: 'pointer' }}
-											/>
-										</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-					</div>
+  return (
+    <div className="d-flex min-vh-100">
+      <Sidebar />
+      <div className="flex-grow-1 d-flex flex-column bg-light">
+        <Header user={user} />
+        <div className="container mt-4 flex-grow-1">
+          <div className="bg-white rounded shadow p-4">
+            {/* Cabeçalho */}
+            <div className="d-flex justify-content-between align-items-center mb-4">
+              <div className="d-flex align-items-center">
+                <img src={ProdutoIcon} alt="Produtos" width="50" height="50" className="me-2" />
+                <p className="mb-0 fs-2 colorBlue">Produtos</p>
+              </div>
+              <button className="btn btn-primary rounded-pill mt-1" onClick={handleAdd}>
+                Adicionar produto +
+              </button>
+            </div>
 
-				</div>
-			</div>
-		</div>
-	);
-};
+            {/* Busca */}
+            <div className="position-relative mb-3" style={{ maxWidth: '360px' }}>
+              <img
+                src={searchIcon}
+                alt="lupa"
+                style={{ position: 'absolute', top: '50%', left: '12px', transform: 'translateY(-50%)', width: '30px', height: '30px', pointerEvents: 'none', opacity: 1.0 }}
+              />
+              <input
+                type="text"
+                placeholder="Pesquisar"
+                className="form-control form-control-sm ps-5"
+                style={{ borderColor: '#014F91', borderWidth: '2px', borderRadius: '15px', height: '40px', fontSize: '18px' }}
+                value={query}
+                onChange={e => setQuery(e.target.value)}
+              />
+            </div>
+
+            {/* Lista */}
+            {loading ? (
+              <p className="text-muted">Carregando...</p>
+            ) : (
+              <ProductList products={filtered} onDelete={handleDelete} onEdit={handleEdit} />
+            )}
+          </div>
+        </div>
+
+        {/* Modal */}
+        {showForm && (
+          <div className="modal fade show" style={{ display: 'block', background: 'rgba(0,0,0,0.5)' }}>
+            <div className="modal-dialog">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title">{editing ? 'Editar produto' : 'Novo produto'}</h5>
+                  <button type="button" className="btn-close" onClick={() => setShowForm(false)} />
+                </div>
+                <div className="modal-body">
+                  <ProductForm onSuccess={handleFormSuccess} initialData={editing || undefined} />
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
 
 export default ProductsPage;
