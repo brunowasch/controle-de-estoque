@@ -117,7 +117,7 @@ npm install
 3. Crie um arquivo `.env` na pasta `backend` com o seguinte conteúdo:
 
 ```env
-PORT=5000
+PORT=3000
 MONGO_URI=mongodb+srv://<usuário>:<senha>@<cluster>.mongodb.net/sistema?retryWrites=true&w=majority
 ```
 4. Gere o build do front-end:
