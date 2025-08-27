@@ -2,70 +2,69 @@ import React, { useEffect, useMemo, useState } from 'react';
 import Header from '../components/layout/Header';
 import Sidebar from '../components/layout/Sidebar';
 import '../css/style.css';
-import ProdutoIcon from "../assets/caixasAzulIcon.png";
+import ClientIcon from "../assets/clientesAzulIcon.png";
 import searchIcon from "../assets/searchIcon.png";
-import ProductForm from '../components/products/ProductForm';
-import ProductList from '../components/products/ProductList';
-import { getProducts, deleteProduct } from '../services/productService';
+import ClientForm from '../components/clients/ClientForm';
+import ClientList from '../components/clients/ClientList';
+import { getClients, deleteClient } from '../services/clientService';
 import { useUser } from '../contexts/UserContext';
 
-const ProductsPage = () => {
+const ClientPage = () => {
   const { user } = useUser();
-  const [products, setProducts] = useState([]);
+  const [clients, setClients] = useState([]);
   const [loading, setLoading] = useState(true);
   const [query, setQuery] = useState('');
   const [showForm, setShowForm] = useState(false);
-  const [editing, setEditing] = useState(null);
+  const [editing, setEditing] = useState(null); 
 
-  const fetchProducts = async () => {
+  const fetchClients = async () => {
     setLoading(true);
     try {
-      const res = await getProducts();
-      setProducts(res.data || []);
+      const res = await getClients();
+      setClients(res.data || []);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchProducts();
+    fetchClients();
   }, []);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
-    if (!q) return products;
-    return products.filter(p =>
-      [p.name, p.description]
+    if (!q) return clients;
+    return clients.filter(c =>
+      [c.name, c.email, c.phone, c.address]
         .filter(Boolean)
         .some(v => String(v).toLowerCase().includes(q))
-      || String(p.price ?? '').includes(q)
-      || String(p.stock ?? '').includes(q)
     );
-  }, [products, query]);
+  }, [clients, query]);
 
   const handleAdd = () => {
     setEditing(null);
     setShowForm(true);
   };
 
-  const handleEdit = (prod) => {
-    setEditing(prod);
+  const handleEdit = (client) => {
+    setEditing(client);
     setShowForm(true);
   };
 
   const handleDelete = async (id) => {
-    if (window.confirm("Tem certeza que deseja apagar este produto?")) {
-      await deleteProduct(id);
-      fetchProducts();
+    if (window.confirm("Tem certeza que deseja apagar este cliente?")) {
+      await deleteClient(id);
+      fetchClients();
     }
   };
+
 
   const handleFormSuccess = () => {
     setShowForm(false);
     setEditing(null);
-    fetchProducts();
+    fetchClients();
   };
-  
+
   return (
     <div className="d-flex min-vh-100">
       <Sidebar />
@@ -76,11 +75,11 @@ const ProductsPage = () => {
             {/* Cabeçalho */}
             <div className="d-flex justify-content-between align-items-center mb-4">
               <div className="d-flex align-items-center">
-                <img src={ProdutoIcon} alt="Produtos" width="50" height="50" className="me-2" />
-                <p className="mb-0 fs-2 colorBlue">Produtos</p>
+                <img src={ClientIcon} alt="Clientes" width="50" height="50" className="me-2" />
+                <p className="mb-0 fs-2 colorBlue">Clientes</p>
               </div>
               <button className="btn btn-primary rounded-pill mt-1" onClick={handleAdd}>
-                Adicionar produto +
+                Adicionar cliente +
               </button>
             </div>
 
@@ -105,22 +104,22 @@ const ProductsPage = () => {
             {loading ? (
               <p className="text-muted">Carregando...</p>
             ) : (
-              <ProductList products={filtered} onDelete={handleDelete} onEdit={handleEdit} />
+              <ClientList clients={filtered} onDelete={handleDelete} onEdit={handleEdit} />
             )}
           </div>
         </div>
 
-        {/* Modal */}
+        {/* Modal de edição */}
         {showForm && (
           <div className="modal fade show" style={{ display: 'block', background: 'rgba(0,0,0,0.5)' }}>
             <div className="modal-dialog">
               <div className="modal-content">
                 <div className="modal-header">
-                  <h5 className="modal-title">{editing ? 'Editar produto' : 'Novo produto'}</h5>
+                  <h5 className="modal-title">{editing ? 'Editar cliente' : 'Novo cliente'}</h5>
                   <button type="button" className="btn-close" onClick={() => setShowForm(false)} />
                 </div>
                 <div className="modal-body">
-                  <ProductForm onSuccess={handleFormSuccess} initialData={editing || undefined} />
+                  <ClientForm onSuccess={handleFormSuccess} initialData={editing || undefined} />
                 </div>
               </div>
             </div>
@@ -130,5 +129,4 @@ const ProductsPage = () => {
     </div>
   );
 }
-
-export default ProductsPage;
+export default ClientPage;

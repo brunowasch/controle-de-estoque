@@ -2,70 +2,68 @@ import React, { useEffect, useMemo, useState } from 'react';
 import Header from '../components/layout/Header';
 import Sidebar from '../components/layout/Sidebar';
 import '../css/style.css';
-import ProdutoIcon from "../assets/caixasAzulIcon.png";
+import FornecedoresIcon from "../assets/fornecedoresAzulIcon.png";
 import searchIcon from "../assets/searchIcon.png";
-import ProductForm from '../components/products/ProductForm';
-import ProductList from '../components/products/ProductList';
-import { getProducts, deleteProduct } from '../services/productService';
+import SupplierForm from '../components/suppliers/SupplierForm';
+import SupplierList from '../components/suppliers/SupplierList';
+import { getSuppliers, deleteSupplier } from '../services/supplierService';
 import { useUser } from '../contexts/UserContext';
 
-const ProductsPage = () => {
+const SupplierPage = () => {
   const { user } = useUser();
-  const [products, setProducts] = useState([]);
+  const [suppliers, setSuppliers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [query, setQuery] = useState('');
   const [showForm, setShowForm] = useState(false);
-  const [editing, setEditing] = useState(null);
+  const [editing, setEditing] = useState(null); 
 
-  const fetchProducts = async () => {
+  const fetchSuppliers = async () => {
     setLoading(true);
     try {
-      const res = await getProducts();
-      setProducts(res.data || []);
+      const res = await getSuppliers();
+      setSuppliers(res.data || []);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchProducts();
+    fetchSuppliers();
   }, []);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
-    if (!q) return products;
-    return products.filter(p =>
-      [p.name, p.description]
+    if (!q) return suppliers;
+    return suppliers.filter(s =>
+      [s.name, s.cnpj, s.email, s.phone, s.address]
         .filter(Boolean)
         .some(v => String(v).toLowerCase().includes(q))
-      || String(p.price ?? '').includes(q)
-      || String(p.stock ?? '').includes(q)
     );
-  }, [products, query]);
+  }, [suppliers, query]);
 
   const handleAdd = () => {
     setEditing(null);
     setShowForm(true);
   };
 
-  const handleEdit = (prod) => {
-    setEditing(prod);
+  const handleEdit = (supplier) => {
+    setEditing(supplier);
     setShowForm(true);
   };
 
   const handleDelete = async (id) => {
-    if (window.confirm("Tem certeza que deseja apagar este produto?")) {
-      await deleteProduct(id);
-      fetchProducts();
+    if (window.confirm("Tem certeza que deseja apagar este fornecedor?")) {
+      await deleteSupplier(id);
+      fetchSuppliers();
     }
   };
 
   const handleFormSuccess = () => {
     setShowForm(false);
     setEditing(null);
-    fetchProducts();
+    fetchSuppliers();
   };
-  
+
   return (
     <div className="d-flex min-vh-100">
       <Sidebar />
@@ -76,11 +74,11 @@ const ProductsPage = () => {
             {/* Cabeçalho */}
             <div className="d-flex justify-content-between align-items-center mb-4">
               <div className="d-flex align-items-center">
-                <img src={ProdutoIcon} alt="Produtos" width="50" height="50" className="me-2" />
-                <p className="mb-0 fs-2 colorBlue">Produtos</p>
+                <img src={FornecedoresIcon} alt="Fornecedores" width="50" height="50" className="me-2" />
+                <p className="mb-0 fs-2 colorBlue">Fornecedores</p>
               </div>
               <button className="btn btn-primary rounded-pill mt-1" onClick={handleAdd}>
-                Adicionar produto +
+                Adicionar fornecedor +
               </button>
             </div>
 
@@ -105,7 +103,7 @@ const ProductsPage = () => {
             {loading ? (
               <p className="text-muted">Carregando...</p>
             ) : (
-              <ProductList products={filtered} onDelete={handleDelete} onEdit={handleEdit} />
+              <SupplierList suppliers={filtered} onDelete={handleDelete} onEdit={handleEdit} />
             )}
           </div>
         </div>
@@ -116,11 +114,11 @@ const ProductsPage = () => {
             <div className="modal-dialog">
               <div className="modal-content">
                 <div className="modal-header">
-                  <h5 className="modal-title">{editing ? 'Editar produto' : 'Novo produto'}</h5>
+                  <h5 className="modal-title">{editing ? 'Editar fornecedor' : 'Novo fornecedor'}</h5>
                   <button type="button" className="btn-close" onClick={() => setShowForm(false)} />
                 </div>
                 <div className="modal-body">
-                  <ProductForm onSuccess={handleFormSuccess} initialData={editing || undefined} />
+                  <SupplierForm onSuccess={handleFormSuccess} initialData={editing || undefined} />
                 </div>
               </div>
             </div>
@@ -131,4 +129,4 @@ const ProductsPage = () => {
   );
 }
 
-export default ProductsPage;
+export default SupplierPage;
