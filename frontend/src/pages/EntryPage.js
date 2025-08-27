@@ -14,6 +14,7 @@ import {
 
 import EditIcon from '../assets/editarIcon.png';
 import DeleteIcon from '../assets/deleteIcon.png';
+import searchIcon from "../assets/searchIcon.png";
 
 const EntryPage = () => {
   const { user } = useUser();
@@ -162,14 +163,19 @@ const EntryPage = () => {
 
 			{/* Busca */}
 			<div className="position-relative mb-3" style={{ maxWidth: '360px' }}>
-			  <input
-				type="text"
-				placeholder="Pesquisar"
-				className="form-control form-control-sm"
-				style={{ borderColor: '#014F91', borderWidth: '2px', borderRadius: '15px', height: '40px', fontSize: '18px' }}
-				value={q}
-				onChange={e => setQ(e.target.value)}
+			  <img
+				src={searchIcon}
+				alt="lupa"
+				style={{ position: 'absolute', top: '50%', left: '12px', transform: 'translateY(-50%)', width: '30px', height: '30px', pointerEvents: 'none', opacity: 1 }}
 			  />
+				<input
+					type="text"
+					placeholder="Pesquisar..."
+					className="form-control form-control-sm ps-5"
+					style={{ borderColor: '#014F91', borderWidth: '2px', borderRadius: '15px', height: '40px', fontSize: '18px' }}
+					value={q}
+					onChange={e => setQ(e.target.value)}
+			 	/>
 			</div>
 
 			{/* Lista */}

@@ -52,8 +52,10 @@ const SupplierPage = () => {
   };
 
   const handleDelete = async (id) => {
-    await deleteSupplier(id);
-    fetchSuppliers();
+    if (window.confirm("Tem certeza que deseja apagar este fornecedor?")) {
+      await deleteSupplier(id);
+      fetchSuppliers();
+    }
   };
 
   const handleFormSuccess = () => {
@@ -89,7 +91,7 @@ const SupplierPage = () => {
               />
               <input
                 type="text"
-                placeholder="Pesquisar"
+                placeholder="Pesquisar..."
                 className="form-control form-control-sm ps-5"
                 style={{ borderColor: '#014F91', borderWidth: '2px', borderRadius: '15px', height: '40px', fontSize: '18px' }}
                 value={query}
