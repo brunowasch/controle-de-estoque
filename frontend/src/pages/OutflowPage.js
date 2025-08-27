@@ -173,7 +173,7 @@ const OutflowPage = () => {
               />
               <input
                 type="text"
-                placeholder="Pesquisar"
+                placeholder="Pesquisar..."
                 className="form-control form-control-sm ps-5"
                 style={{ borderColor: '#014F91', borderWidth: '2px', borderRadius: '15px', height: '40px', fontSize: '18px' }}
                 value={q}

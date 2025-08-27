@@ -54,8 +54,10 @@ const ProductsPage = () => {
   };
 
   const handleDelete = async (id) => {
-    await deleteProduct(id);
-    fetchProducts();
+    if (window.confirm("Tem certeza que deseja apagar este produto?")) {
+      await deleteProduct(id);
+      fetchProducts();
+    }
   };
 
   const handleFormSuccess = () => {
@@ -63,7 +65,7 @@ const ProductsPage = () => {
     setEditing(null);
     fetchProducts();
   };
-
+  
   return (
     <div className="d-flex min-vh-100">
       <Sidebar />
@@ -91,7 +93,7 @@ const ProductsPage = () => {
               />
               <input
                 type="text"
-                placeholder="Pesquisar"
+                placeholder="Pesquisar..."
                 className="form-control form-control-sm ps-5"
                 style={{ borderColor: '#014F91', borderWidth: '2px', borderRadius: '15px', height: '40px', fontSize: '18px' }}
                 value={query}

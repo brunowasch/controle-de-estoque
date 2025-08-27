@@ -52,9 +52,12 @@ const ClientPage = () => {
   };
 
   const handleDelete = async (id) => {
-    await deleteClient(id);
-    fetchClients();
+    if (window.confirm("Tem certeza que deseja apagar este cliente?")) {
+      await deleteClient(id);
+      fetchClients();
+    }
   };
+
 
   const handleFormSuccess = () => {
     setShowForm(false);
@@ -89,7 +92,7 @@ const ClientPage = () => {
               />
               <input
                 type="text"
-                placeholder="Pesquisar"
+                placeholder="Pesquisar..."
                 className="form-control form-control-sm ps-5"
                 style={{ borderColor: '#014F91', borderWidth: '2px', borderRadius: '15px', height: '40px', fontSize: '18px' }}
                 value={query}
