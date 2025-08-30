@@ -199,7 +199,7 @@ const HomePage = () => {
     if (v === 'entrada') return 'Entrada';
     if (v === 'saída' || v === 'saida') return 'Saída';
     return t || '—';
-    };
+  };
 
   const tipoClass = (t) => {
     const v = (t || '').toLowerCase();
@@ -207,7 +207,7 @@ const HomePage = () => {
   };
 
   return (
-    <div className="d-flex min-vh-100">
+    <div className="d-flex min-vh-100 overflow-x-hidden">
       <Sidebar />
 
       <div className="flex-grow-1 d-flex flex-column bg-light">
@@ -215,7 +215,7 @@ const HomePage = () => {
 
         {/* KPIs */}
         <div className="container my-4" style={{ paddingTop: '2%' }}>
-          <p className="mb-4 fs-4 fs-md-3 fs-lg-2" style={{ fontSize: '32px' }}>Dashboard</p>
+          <p className="mb-4 fs-4" style={{ fontSize: '32px' }}>Dashboard</p>
 
           {error && <div className="alert alert-danger">{error}</div>}
           {loading && <div className="text-muted">Carregando dados...</div>}
@@ -223,7 +223,7 @@ const HomePage = () => {
           {!loading && !error && (
             <div className="row g-3">
               {/* Estoque Baixo (inclui zerados) */}
-              <div className="col-md-4 d-flex">
+              <div className="col-12 col-md-4 d-flex">
                 <div
                   className="d-flex justify-content-between align-items-center p-3"
                   style={{
@@ -247,7 +247,7 @@ const HomePage = () => {
               </div>
 
               {/* Quantidade no Estoque */}
-              <div className="col-md-4 d-flex">
+              <div className="col-12 col-md-4 d-flex">
                 <div
                   className="d-flex justify-content-between align-items-center p-3"
                   style={{
@@ -268,7 +268,7 @@ const HomePage = () => {
               </div>
 
               {/* Custo Total */}
-              <div className="col-md-4 d-flex">
+              <div className="col-12 col-md-4 d-flex">
                 <div
                   className="d-flex justify-content-between align-items-center p-3"
                   style={{
@@ -341,20 +341,20 @@ const HomePage = () => {
               {activeTab === 'historico' && (
                 <>
                   <div className="d-flex justify-content-between align-items-center mb-3">
-                  <h5 className="text-center m-0">{getTitulo()}</h5>
-                  <div
-                    className="d-flex align-items-center gap-2"
-                    style={{ cursor: 'pointer' }}
-                    onClick={() => {
-                      if (window.confirm('Apagar todo o histórico?')) {
-                        clearHistory();
-                      }
-                    }}
-                  >
-                    <img src={DeleteIcon} alt="Deletar" width="20" height="20" />
-                    <span className="text-danger">Apagar histórico</span>
+                    <h5 className="text-center m-0">{getTitulo()}</h5>
+                    <div
+                      className="d-flex align-items-center gap-2"
+                      style={{ cursor: 'pointer' }}
+                      onClick={() => {
+                        if (window.confirm('Apagar todo o histórico?')) {
+                          clearHistory();
+                        }
+                      }}
+                    >
+                      <img src={DeleteIcon} alt="Deletar" width="20" height="20" />
+                      <span className="text-danger">Apagar histórico</span>
+                    </div>
                   </div>
-                </div>
                   <div className="table-responsive">
                     <table className="table table-borderless text-center">
                       <thead className="text-primary">
@@ -385,7 +385,7 @@ const HomePage = () => {
                               <td>{m.quantity}</td>
                               <td>{fmtMoney(m.unitPrice)}</td>
                               <td>
-                              <img
+                                <img
                                   src={DeleteIcon}
                                   alt="Deletar"
                                   width="20"
@@ -396,7 +396,7 @@ const HomePage = () => {
                                       deleteMovementById(m.id);
                                     }
                                   }}
-                              />
+                                />
                               </td>
                             </tr>
                           ))
