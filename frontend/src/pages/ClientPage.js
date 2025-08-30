@@ -58,7 +58,6 @@ const ClientPage = () => {
     }
   };
 
-
   const handleFormSuccess = () => {
     setShowForm(false);
     setEditing(null);
@@ -66,14 +65,14 @@ const ClientPage = () => {
   };
 
   return (
-    <div className="d-flex min-vh-100">
+    <div className="d-flex min-vh-100 overflow-x-hidden">
       <Sidebar />
       <div className="flex-grow-1 d-flex flex-column bg-light">
         <Header user={user} />
         <div className="container mt-4 flex-grow-1">
           <div className="bg-white rounded shadow p-4">
             {/* Cabeçalho */}
-            <div className="d-flex justify-content-between align-items-center mb-4">
+            <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
               <div className="d-flex align-items-center">
                 <img src={ClientIcon} alt="Clientes" width="50" height="50" className="me-2" />
                 <p className="mb-0 fs-2 colorBlue">Clientes</p>
@@ -84,11 +83,20 @@ const ClientPage = () => {
             </div>
 
             {/* Busca */}
-            <div className="position-relative mb-3" style={{ maxWidth: '360px' }}>
+            <div className="position-relative mb-3 w-100" style={{ maxWidth: '360px' }}>
               <img
                 src={searchIcon}
                 alt="lupa"
-                style={{ position: 'absolute', top: '50%', left: '12px', transform: 'translateY(-50%)', width: '30px', height: '30px', pointerEvents: 'none', opacity: 1.0 }}
+                style={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: '12px',
+                  transform: 'translateY(-50%)',
+                  width: '30px',
+                  height: '30px',
+                  pointerEvents: 'none',
+                  opacity: 1.0
+                }}
               />
               <input
                 type="text"
