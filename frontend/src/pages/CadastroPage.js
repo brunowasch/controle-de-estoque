@@ -27,7 +27,7 @@ const CadastroPage = () => {
     }
   };
 
-  // Limpa erro depois de 3 segundos
+  // Limpa erro depois de 3s
   useEffect(() => {
     if (error) {
       const timer = setTimeout(() => setError(null), 3000);
@@ -37,18 +37,14 @@ const CadastroPage = () => {
 
   return (
     <div className="container-fluid min-vh-100 d-flex justify-content-center align-items-center bg-light">
-      <div
-        className="card shadow flex-column flex-md-row w-100 mx-auto"
-        style={{ maxWidth: '850px' }}
-      >
-        <div className="col-md-6 p-5 align-content-center">
+      <div className="card shadow flex-column flex-md-row w-100 mx-auto" style={{ maxWidth: '850px' }}>
+        {/* Coluna esquerda (form) */}
+        <div className="col-md-6 p-5 d-flex flex-column">
           <p className="mb-4 fs-4 text-center">Cadastre-se</p>
 
           <form id="cadastroForm" onSubmit={handleSubmit}>
             <div className="mb-3">
-              <label htmlFor="nome" className="form-label">
-                Nome
-              </label>
+              <label htmlFor="nome" className="form-label">Nome</label>
               <input
                 type="text"
                 id="nome"
@@ -61,9 +57,7 @@ const CadastroPage = () => {
             </div>
 
             <div className="mb-3">
-              <label htmlFor="email" className="form-label">
-                Email
-              </label>
+              <label htmlFor="email" className="form-label">Email</label>
               <input
                 type="email"
                 id="email"
@@ -76,9 +70,7 @@ const CadastroPage = () => {
             </div>
 
             <div className="mb-3">
-              <label htmlFor="senha" className="form-label">
-                Senha
-              </label>
+              <label htmlFor="senha" className="form-label">Senha</label>
               <input
                 type="password"
                 id="senha"
@@ -96,19 +88,17 @@ const CadastroPage = () => {
               </div>
             )}
 
-            <button
-              type="submit"
-              className="btn btn-primary w-100 rounded-pill fs-5 mt-1"
-            >
+            <button type="submit" className="btn btn-primary w-100 rounded-pill fs-5 mt-1">
               Concluir
             </button>
+
             <p className="mt-3 text-center small">
-              Já tem uma conta? <a href="/">Entre aqui</a>
+              Já tem uma conta? <Link to="/">Entre aqui</Link>
             </p>
           </form>
         </div>
 
-        {/* Lado direito - imagem e texto */}
+        {/* Coluna direita (imagem) */}
         <div className="col-md-6 d-flex flex-column justify-content-center align-items-center text-white text-center backgroundBlue p-4 p-md-5">
           <p className="fs-4 mb-4">Você está no só Bujiganga.</p>
           <img
