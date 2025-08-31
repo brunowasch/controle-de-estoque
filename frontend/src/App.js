@@ -13,7 +13,7 @@ function App() {
       <Route path="/cadastro" element={<CadastroPage />} />
       <Route path="/home" element={<HomePage />} /> {/* Página Inicial (Home) */}
       <Route path="/forgotPassword" element={<ForgotPasswordPage />} />
-      <Route path="/produtos" element={<ProductsPage />} />
+      <Route path="/products" element={<ProductsPage />} />
     </Routes>
   );
 }

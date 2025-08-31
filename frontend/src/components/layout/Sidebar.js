@@ -25,7 +25,7 @@ const Sidebar = () => {
 
   const navItems = [
     { to: '/home', icon: iconInicio, label: 'Início' },
-    { to: '/produtos', icon: iconProdutos, label: 'Produtos' },
+    { to: '/products', icon: iconProdutos, label: 'Produtos' },
     { to: '/entradas', icon: iconEntradas, label: 'Entradas' },
     { to: '/saidas', icon: iconSaidas, label: 'Saídas' },
     { to: '/estoque', icon: iconEstoque, label: 'Estoques' },
