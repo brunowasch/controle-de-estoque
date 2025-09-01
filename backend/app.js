@@ -42,17 +42,13 @@ app.use('/api/suppliers', authenticateToken, supplierRoutes);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Frontend 
-const buildPath = path.join(__dirname, '..', 'frontend', 'build')
+const buildPath = path.join(__dirname, '..', 'frontend', 'build');
 if (fs.existsSync(path.join(buildPath, 'index.html'))) {
   app.use(express.static(buildPath));
   app.get('*', (_req, res) => res.sendFile(path.join(buildPath, 'index.html')));
 } else {
-  app.get('/', (_req, res) => res.send('API online'));
+  app.get('/', (_req, res) => res.send('API online (sem build do frontend)'));
 }
-
-app.get('*', (_req, res) => {
-  res.sendFile(path.join(buildPath, 'index.html'));
-});
 
 // Inicialização 
 const PORT = process.env.PORT || 3000;
