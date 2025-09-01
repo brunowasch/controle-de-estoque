@@ -3,6 +3,7 @@ require('dotenv').config();
 const path = require('path');
 const express = require('express');
 const cors = require('cors');
+const fs = require('fs');
 
 const connectDB = require('./database');
 const authRoutes = require('./routes/authRoutes');
@@ -40,9 +41,14 @@ app.use('/api/suppliers', authenticateToken, supplierRoutes);
 // Swagger 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-// rontend 
-const buildPath = path.join(__dirname, '..', 'frontend', 'build');
-app.use(express.static(buildPath));
+// Frontend 
+const buildPath = path.join(__dirname, '..', 'frontend', 'build')
+if (fs.existsSync(path.join(buildPath, 'index.html'))) {
+  app.use(express.static(buildPath));
+  app.get('*', (_req, res) => res.sendFile(path.join(buildPath, 'index.html')));
+} else {
+  app.get('/', (_req, res) => res.send('API online'));
+}
 
 app.get('*', (_req, res) => {
   res.sendFile(path.join(buildPath, 'index.html'));
