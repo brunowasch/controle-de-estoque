@@ -18,17 +18,24 @@ const swaggerSpec = require('./swagger');
 
 const app = express();
 
+const allowedOrigins = [
+  'https://controle-de-estoque-tau-nine.vercel.app'  
+];
+
+const options = {
+  origin: allowedOrigins,
+  credentials: true, 
+};
+
+app.use(cors(options));
+
+app.get('/api/ping', (req, res) => {
+  res.json({ message: 'Pong' });
+});
+
 app.set('trust proxy', 1);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-const ORIGIN = process.env.CORS_ORIGIN;
-const corsOptions =
-  ORIGIN
-    ? { origin: ORIGIN, credentials: true } 
-    : { origin: true }; 
-
-app.use(cors(corsOptions));
 
 app.get('/health', (_req, res) => res.send('ok'));
 
