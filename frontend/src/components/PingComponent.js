@@ -21,18 +21,6 @@ const PingComponent = () => {
         setError(error.message);
       });
   }, []); 
-
-  return (
-    <div>
-      <h1>Teste de Conexão com o Backend</h1>
-      {error && <p style={{ color: 'red' }}>Erro: {error}</p>}
-      {data ? (
-        <p>Resposta da API: {JSON.stringify(data)}</p>
-      ) : (
-        <p>Carregando...</p>
-      )}
-    </div>
-  );
 };
 
 export default PingComponent
