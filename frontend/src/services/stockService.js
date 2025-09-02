@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API = 'http://localhost:3000/api/stock';
+const API = 'https://controle-de-estoque-projeto.onrender.com/pi/stock';
 
 function auth() {
   const token = localStorage.getItem('token');

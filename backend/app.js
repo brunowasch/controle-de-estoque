@@ -1,24 +1,44 @@
 require('dotenv').config();
-const authRoutes = require('./routes/authRoutes');
-const { authenticateToken, isAdmin } = require('./middlewares/authMiddleware');
+
 const path = require('path');
 const express = require('express');
 const cors = require('cors');
+const fs = require('fs');
+
 const connectDB = require('./database');
+const authRoutes = require('./routes/authRoutes');
+const { authenticateToken } = require('./middlewares/authMiddleware');
 const stockRoutes = require('./routes/stockRoutes');
 const productRoutes = require('./routes/productRoutes');
 const clientRoutes = require('./routes/clientRoutes');
 const supplierRoutes = require('./routes/supplierRoutes');
+
 const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('./swagger');
+
 const app = express();
 
-// Configurações
+const allowedOrigins = [
+  'https://controle-de-estoque-tau-nine.vercel.app'  
+];
+
+const options = {
+  origin: allowedOrigins,
+  credentials: true, 
+};
+
+app.use(cors(options));
+
+app.get('/api/ping', (req, res) => {
+  res.json({ message: 'Pong' });
+});
+
+app.set('trust proxy', 1);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
 
-// Rotas API
+app.get('/health', (_req, res) => res.send('ok'));
+
 app.use('/api/auth', authRoutes);
 app.use('/api/products', authenticateToken, productRoutes);
 app.use('/api/stock', authenticateToken, stockRoutes);
@@ -28,16 +48,20 @@ app.use('/api/suppliers', authenticateToken, supplierRoutes);
 // Swagger 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-// React Front
-app.use(express.static(path.join(__dirname, '..', 'frontend', 'build')));
+// Frontend 
+const buildPath = path.join(__dirname, '..', 'frontend', 'build');
+if (fs.existsSync(path.join(buildPath, 'index.html'))) {
+  app.use(express.static(buildPath));
+  app.get('*', (_req, res) => res.sendFile(path.join(buildPath, 'index.html')));
+} else {
+  app.get('/', (_req, res) => res.send('API online (sem build do frontend)'));
+}
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'frontend', 'build', 'index.html'));
-});
+// Inicialização 
+const PORT = process.env.PORT || 3000;
 
-// Conexão BD
 connectDB().then(() => {
-  app.listen(process.env.PORT, () => {
-    console.log(`Servidor rodando em http://localhost:${process.env.PORT}`);
+  app.listen(PORT, () => {
+    console.log(`Servidor rodando em http://localhost:${PORT}`);
   });
 });

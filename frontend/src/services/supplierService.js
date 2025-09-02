@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3000/api/suppliers';
+const API_URL = 'https://controle-de-estoque-projeto.onrender.com/api/suppliers';
 
 function auth() {
   const token = localStorage.getItem('token'); 
