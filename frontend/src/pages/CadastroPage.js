@@ -19,7 +19,7 @@ const CadastroPage = () => {
 
       if (response.status === 201) {
         alert('Cadastro realizado com sucesso!');
-        navigate('/'); 
+        navigate('/home'); 
       }
     } catch (err) {
       const errorMsg = err.response?.data?.error || 'Erro inesperado ao tentar cadastrar';
@@ -41,7 +41,7 @@ const CadastroPage = () => {
         style={{ maxWidth: '850px' }}
       >
         <div className="col-md-6 p-5 align-content-center">
-          <p className="mb-4 fs-4 text-center">Cadastre de usuário</p>
+          <p className="mb-4 fs-4 text-center">Cadastro de usuário</p>
 
           <form id="cadastroForm" onSubmit={handleSubmit}>
             <div className="mb-3">
