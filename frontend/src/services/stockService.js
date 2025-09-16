@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API = 'https://back-end-controle-estoque.onrender.com/api/stock';
+const API = 'http://localhost:3000/api/stock';
 
 function auth() {
   const token = localStorage.getItem('token');

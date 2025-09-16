@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'https://back-end-controle-estoque.onrender.com/api/clients'; 
+const API_URL = 'http://localhost:3000/api/clients'; 
 
 export const getClients = () => axios.get(API_URL);
 export const getClientById = (id) => axios.get(`${API_URL}/${id}`);
