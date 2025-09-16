@@ -7,7 +7,7 @@ import stokDrawImage from '../assets/stokDraw.png';
 const CadastroPage = () => {
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
-  const [senha, setSenha] = useState('');
+  const [senha, setSenha] = useState('cimol123');
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
@@ -27,7 +27,6 @@ const CadastroPage = () => {
     }
   };
 
-  // Limpa erro depois de 3 segundos
   useEffect(() => {
     if (error) {
       const timer = setTimeout(() => setError(null), 3000);
@@ -42,18 +41,19 @@ const CadastroPage = () => {
         style={{ maxWidth: '850px' }}
       >
         <div className="col-md-6 p-5 align-content-center">
-          <p className="mb-4 fs-4 text-center">Cadastre-se</p>
+          <p className="mb-4 fs-4 text-center">Cadastre de usuário</p>
 
           <form id="cadastroForm" onSubmit={handleSubmit}>
             <div className="mb-3">
               <label htmlFor="nome" className="form-label">
-                Nome
+                Nome do usuário
               </label>
               <input
                 type="text"
                 id="nome"
                 name="nome"
                 className="form-control"
+                placeholder='Digite o nome do usuário'
                 required
                 value={nome}
                 onChange={(e) => setNome(e.target.value)}
@@ -69,6 +69,7 @@ const CadastroPage = () => {
                 id="email"
                 name="email"
                 className="form-control"
+                placeholder='Digite o email do usuário'
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -84,6 +85,7 @@ const CadastroPage = () => {
                 id="senha"
                 name="password"
                 className="form-control"
+                placeholder='Digite a senha do usuário'
                 required
                 value={senha}
                 onChange={(e) => setSenha(e.target.value)}
@@ -103,7 +105,7 @@ const CadastroPage = () => {
               Concluir
             </button>
             <p className="mt-3 text-center small">
-              Já tem uma conta? <a href="/">Entre aqui</a>
+              Fazer login como usuário? <a href="/">Entre aqui</a>
             </p>
           </form>
         </div>
