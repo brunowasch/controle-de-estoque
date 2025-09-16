@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import profileIcon from '../../assets/profileIcon.png';
-import iconMenu from '../../assets/menu.png'; // importe o ícone do menu
+import iconMenu from '../../assets/menu.png';
 
 const Header = ({ user }) => (
   <div className="d-flex justify-content-between align-items-center p-3 bg-white shadow-sm">
@@ -22,6 +23,10 @@ const Header = ({ user }) => (
       <div className="text-end me-2">
         <div className="fw-semibold x-small">{user?.nome || 'Usuário'}</div>
         <div className="text-muted small">{user?.email || 'email@exemplo.com'}</div>
+        {}
+        <Link to="/cadastro" className="d-block small text-primary text-decoration-none">
+          Criar usuário
+        </Link>
       </div>
       <img src={profileIcon} alt="Perfil" width={40} height={40} />
     </div>

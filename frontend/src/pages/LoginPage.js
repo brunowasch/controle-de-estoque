@@ -88,9 +88,6 @@ const LoginPage = () => {
             <button type="submit" className="btn btn-primary w-100 rounded-pill fs-5 mt-1">
               Continuar
             </button>
-            <p className="mt-3 text-center small">
-              Não tem uma conta? <Link to="/cadastro">Crie aqui</Link>
-            </p>
           </form>
         </div>
 
@@ -103,7 +100,6 @@ const LoginPage = () => {
             style={{ maxHeight: '350px' }}
           />
         </div>
-
       </div>
     </div>
   );
