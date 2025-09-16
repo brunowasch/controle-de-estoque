@@ -1,16 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import profileIcon from '../../assets/profileIcon.png';
 import iconMenu from '../../assets/menu.png';
 
 const Header = ({ user }) => {
-  const navigate = useNavigate();
-
   const handleLogout = () => {
-    localStorage.removeItem('user'); // limpa sessão/localStorage
-    alert('Você saiu da conta.');
-    navigate('/login');
+    localStorage.removeItem('user');
   };
 
   return (
@@ -33,22 +29,23 @@ const Header = ({ user }) => {
           <div className="fw-semibold x-small">{user?.nome || 'Usuário'}</div>
           <div className="text-muted small">{user?.email || 'email@exemplo.com'}</div>
 
-          {/* Criar usuário e Sair da conta menores, lado a lado */}
+          {/* Criar usuário e Sair da conta lado a lado, menores */}
           <div className="d-flex justify-content-end align-items-center gap-2">
             <Link
               to="/cadastro"
               className="small text-primary text-decoration-none"
-              style={{ fontSize: '0.90rem' }}
+              style={{ fontSize: '0.75rem' }}
             >
               Criar usuário
             </Link>
-            <button
+            <Link
+              to="/"
               onClick={handleLogout}
-              className="btn btn-link small text-danger text-decoration-none p-0"
-              style={{ fontSize: '0.90rem' }}
+              className="small text-danger text-decoration-none"
+              style={{ fontSize: '0.75rem' }}
             >
               Sair da conta
-            </button>
+            </Link>
           </div>
         </div>
         <img src={profileIcon} alt="Perfil" width={40} height={40} />
